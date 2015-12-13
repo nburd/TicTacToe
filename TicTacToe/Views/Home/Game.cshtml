@@ -1,0 +1,110 @@
+﻿@model Test.Models.Game
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="page-header">
+    <h1>Крестики-нолики</h1>
+</div>
+
+
+<button type="submit"
+        class="btn btn-lg"
+        onclick="location.href='@Url.Action("DisplayResults")'">
+    Результаты
+</button>
+<button type="submit"
+        class="btn btn-lg"
+        onclick="location.href='@Url.Action("Game")'">
+    Новая игра
+</button>
+
+@using (Html.BeginForm("MakeMove", "Home", FormMethod.Post))
+{
+    <input type="hidden" name="id" value="@Model.Id" />
+    <table style="margin: 100px" border="0"> 
+        @for (int i = 0; i < 9; i++)
+        {
+            <tr>
+            @for (int j = 0; j < 3; j++)
+            {
+                bool res = false;
+                bool winPos = false;
+                string xoro = "";
+                foreach (var move in Model.Moves)
+                {
+                    if (move.MoveNumber == i + j)
+                    {
+                        res = true;
+                        xoro = move.XorO;
+                        winPos = move.WinnerPosition;
+                    }
+                }
+                if (res == true)
+                {
+                    if (winPos == true)
+                    {
+                        <td>                   
+                            <button type="submit"
+                                    name="Number"
+                                    class="btn"
+                                    value="@(i + j)"
+                                    style="width: 120px; height:120px; background: #ff6a00; font-size:60px"
+                                    disabled>
+                                @xoro
+                            </button>  
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <button type="submit"
+                                    name="Number"
+                                    value="@(i + j)"
+                                    style="width: 120px; height:120px; font-size:60px"
+                                    disabled>
+                                @xoro
+                            </button>
+                        </td>
+                    }
+                }
+                else
+                {
+                        <td>
+                            <button type="submit"
+                                    name="Number"
+                                    value="@(i + j)"
+                                    style="width: 120px; height:120px">
+                            </button>  
+                        </td>
+                }
+            }       
+            </tr>
+        i += 2;
+        }
+    </table>
+
+
+    if(ViewBag.Text != null)
+    {
+        if (ViewBag.Text == "X")
+        {
+            <div class="alert alert-success" style="position:absolute; left:490px; top: 217px; width: 365px">
+                <p style="font-size:40px;">Вы выиграли!</p>                
+            </div>
+        }
+        else if (ViewBag.Text == "O")
+        {
+            <div class="alert alert-danger" style="position:absolute; left:490px; top: 217px; width: 365px">
+                <p style="font-size:40px;">Вы проиграли!</p>
+            </div>
+            
+        }
+        else
+        {
+            <div class="alert alert-info" style="position:absolute; left:490px; top: 217px; width: 365px">
+                <p style="font-size:40px; text-align:center">Ничья!</p>                
+            </div>
+        }
+    }
+}

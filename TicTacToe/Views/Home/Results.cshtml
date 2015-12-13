@@ -1,0 +1,166 @@
+﻿@model List<Test.Models.Game>
+@{
+    ViewBag.Title = "Results";
+}
+
+<button type="submit"
+        name="view"
+        value="@ViewBag.Id"
+        class="btn btn-lg"
+        onclick="location.href='@Url.Action("Game")'">
+    Вернуться
+</button>
+
+<div class="row">
+    <div class="col-md-3">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th colspan="2">Компьютер</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Победы</td>
+                    <td><strong>@ViewBag.Wins</strong></td>
+                </tr>
+                <tr>
+                    <td>Ничьи</td>
+                    <td><strong>@ViewBag.Draws</strong></td>
+                </tr>                                
+                @if (ViewBag.Loses == 0)
+                {
+                    <tr class="success">
+                        <td>Поражения</td>
+                        <td><strong>@ViewBag.Loses</strong></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr class="warning">
+                        <td>Поражения</td>
+                        <td><strong>@ViewBag.Loses</strong></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>    
+    @foreach (var game in Model)
+    {
+        <h3>Игра № @game.Id</h3>
+        if (game.Winner != null)
+        {
+            if (game.Winner == "X")
+            {
+                <h3>Вы выиграли</h3>
+            }
+            else if (game.Winner == "O")
+            {
+                <h3>Выиграл компьютер</h3>
+            }
+            else if (game.Winner == "" || game.Moves.Count == 9)
+            {
+                <h3>Ничья</h3>
+            }
+        }
+        else
+        {
+            <h3>Игра не доиграна</h3>            
+        }
+
+        <a href="#spoiler-@game.Id" data-toggle="collapse" class="btn btn-primary">Показать ходы</a>
+        if (game.Winner == null)
+        {
+            <button class="btn btn-success" onclick="location.href='@Url.Action("Display", new { id = game.Id })'">Доиграть</button>
+        }
+        <div class="container">
+            <div class="collapse" id="spoiler-@game.Id">
+                <div class="panel col-md-2">
+                    <table class="table table-bordered" style="margin:20px">
+                        <thead>
+                            <tr>
+                                <th>Ход</th>
+                                <th>Х или 0</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var move in game.Moves)
+                            {
+                                if (move.WinnerPosition == true)
+                                {
+                                    <tr style="background: #b6ff00">
+                                        <td>@move.MoveNumber</td>
+                                        <td>@move.XorO</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>@move.MoveNumber</td>
+                                        <td>@move.XorO</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <div class="container">
+                        <div class="col-md-offset-2">
+                            <table class="table table-bordered" style="border:hidden">
+                                @for (int i = 0; i < 9; i++)
+                                {
+                                    <tr>
+                                        @for (int j = 0; j < 3; j++)
+                                        {
+                                            bool res = false;
+                                            bool winPos = false;
+                                            string xoro = "";
+                                            foreach (var move in game.Moves)
+                                            {
+                                                if (move.MoveNumber == i + j)
+                                                {
+                                                    res = true;
+                                                    xoro = move.XorO;
+                                                    winPos = move.WinnerPosition;
+                                                }
+                                            }
+                                            if (res == true)
+                                            {
+                                                if (winPos == true)
+                                                {
+                                                    <td style="background:#ff6a00" align="center">@xoro</td>
+                                                }
+                                                else
+                                                {
+                                                    <td align="center">@xoro</td>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <td></td>
+                                            }
+                                        }
+                                    </tr>
+                                    i += 2;
+                                }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+    @if (ViewBag.Page > 1)
+    {
+        <button onclick="location.href='@Url.Action("DisplayResults", new { page = ViewBag.Page - 1 })'">Предыдущая</button>
+    }
+    @if (ViewBag.PageCount > ViewBag.Page)
+    {
+        <button onclick="location.href='@Url.Action("DisplayResults", new { page = ViewBag.Page + 1 })'">Следующая</button>
+    }
+
