@@ -102,13 +102,6 @@ namespace TicTacToe.Models
             foreach (var move in game.Moves)
                 curNode = curNode.Children.Find(x => x.CurrentMove == move.MoveNumber);
 
-            var potResult = curNode.Children.Where(x => x.Wins == 1 && x.Children.Count == 0).FirstOrDefault();
-            if (potResult != null)
-                return potResult.CurrentMove;
-
-            var notPotResult = curNode.Children.Where(x => x.Losses == 1 && x.Children.Count == 0).FirstOrDefault();            
-            if (notPotResult != null)
-                curNode.Children.Remove(notPotResult);
             var coll = curNode.Children
                     .OrderBy(x => x.Losses)
                     .ThenByDescending(x => x.Draws)
@@ -116,9 +109,8 @@ namespace TicTacToe.Models
 
             if (!coll.Any())
                 return Enumerable.Range(0, 9).Except(game.Moves.Select(x => x.MoveNumber)).First();
-
-            var result = coll.First();
-            return result.CurrentMove;
+            
+            return coll.First().CurrentMove;
         }  
     }
 }

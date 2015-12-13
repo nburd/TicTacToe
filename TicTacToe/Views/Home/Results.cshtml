@@ -155,13 +155,15 @@
     }
 </div>
 
-
+<ul class="pager">
     @if (ViewBag.Page > 1)
     {
-        <button onclick="location.href='@Url.Action("DisplayResults", new { page = ViewBag.Page - 1 })'">Предыдущая</button>
+        <li><a href="#" onclick="location.href='@Url.Action("DisplayResults", new { page = ViewBag.Page - 1 })'">Предыдущая</a></li>
     }
     @if (ViewBag.PageCount > ViewBag.Page)
     {
-        <button onclick="location.href='@Url.Action("DisplayResults", new { page = ViewBag.Page + 1 })'">Следующая</button>
+        <li><a href="#" onclick="location.href='@Url.Action("DisplayResults", new { page = ViewBag.Page + 1 })'">Следующая</a></li>
     }
+</ul>
+
 

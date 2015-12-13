@@ -64,6 +64,15 @@ namespace TicTacToe.Models
             }
         }
 
+        public int GetGamesPageCount(int pageSize)
+        {
+            using (var db = new TicTacToeContext())
+            {
+                var count = db.Games.Count();
+                return db.Games.Count() / pageSize + 1;
+            }
+        }
+
         public int GetWinsCount()
         {
             using (var db = new TicTacToeContext())
@@ -87,15 +96,7 @@ namespace TicTacToe.Models
                 return db.Games.Where(x => x.Winner == "").Count();
             }
         }
-
-        public int GetGamesPageCount(int pageSize)
-        {
-            using (var db = new TicTacToeContext())
-            {
-                return db.Games.Count() / pageSize;
-            }
-        }
-
+        
         public void Update(Game game)
         {
             using (var db = new TicTacToeContext())

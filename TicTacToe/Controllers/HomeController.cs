@@ -16,6 +16,7 @@ namespace TicTacToe.Controllers
         {
             if(rep.GetCount(id) == 9)
                 ViewBag.Text = "Ничья";
+
             string winner, winPos;
             var game = rep.Get(id);
             if (game.IsGameOver(out winner, out winPos))
@@ -24,6 +25,7 @@ namespace TicTacToe.Controllers
                 rep.Update(game);
                 ViewBag.Text = winner;
             }
+
             return View("Game", rep.Get(id));
         }
 
@@ -52,9 +54,7 @@ namespace TicTacToe.Controllers
         public ActionResult MakeMove(string Number, int id)
         {
             if (id == 0)
-            {
                 id = rep.CreateNewGame();
-            }
             
             string winner, winParse;
             if (rep.Get(id).IsGameOver(out winner, out winParse))
