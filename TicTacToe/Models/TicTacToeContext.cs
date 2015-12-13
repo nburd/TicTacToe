@@ -7,7 +7,7 @@
     public class TicTacToeContext : DbContext
     {
         public TicTacToeContext()
-            : base("name=Model1")
+            : base("name=TicTacToeContext")
         {
         }
         

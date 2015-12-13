@@ -1,4 +1,4 @@
-﻿@model List<Test.Models.Game>
+﻿@model List<TicTacToe.Models.Game>
 @{
     ViewBag.Title = "Results";
 }
@@ -50,26 +50,27 @@
 <div>    
     @foreach (var game in Model)
     {
-        <h3>Игра № @game.Id</h3>
+        string result = "";
         if (game.Winner != null)
         {
             if (game.Winner == "X")
             {
-                <h3>Вы выиграли</h3>
+                result = "Вы выиграли";
             }
             else if (game.Winner == "O")
             {
-                <h3>Выиграл компьютер</h3>
+                result = "Выиграл компьютер";
             }
             else if (game.Winner == "" || game.Moves.Count == 9)
             {
-                <h3>Ничья</h3>
+                result = "Ничья";
             }
         }
         else
         {
-            <h3>Игра не доиграна</h3>            
+            result = "Игра не завершена";
         }
+        <h3>Игра № @game.Id - @result</h3>
 
         <a href="#spoiler-@game.Id" data-toggle="collapse" class="btn btn-primary">Показать ходы</a>
         if (game.Winner == null)
