@@ -1,6 +1,6 @@
 ﻿@model List<TicTacToe.Models.Game>
 @{
-    ViewBag.Title = "Results";
+    ViewBag.Title = "Tic Tac Toe - Results";
 }
 
 <button type="submit"
@@ -160,6 +160,7 @@
     {
         <li><a href="#" onclick="location.href='@Url.Action("DisplayResults", new { page = ViewBag.Page - 1 })'">Предыдущая</a></li>
     }
+    <li>@ViewBag.Page / @ViewBag.PageCount</li>
     @if (ViewBag.PageCount > ViewBag.Page)
     {
         <li><a href="#" onclick="location.href='@Url.Action("DisplayResults", new { page = ViewBag.Page + 1 })'">Следующая</a></li>

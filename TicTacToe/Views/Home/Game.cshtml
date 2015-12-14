@@ -1,6 +1,6 @@
 ﻿@model TicTacToe.Models.Game
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Tic Tac Toe";
 }
 
 <div class="page-header">
@@ -20,33 +20,34 @@
     </button>
 </div>
 
-
+<div class="row"> 
     @if (ViewBag.Text != null)
     {
         if (ViewBag.Text == "X")
         {
-            <div class="alert alert-success" style="margin:10px 0px">
+            <div class="alert alert-success col-md-4" style="margin:10px 0px">
                 <h2>Вы выиграли!</h2>
             </div>
         }
         else if (ViewBag.Text == "O")
         {
-            <div class="alert alert-danger" style="margin:10px 0px">
+            <div class="alert alert-danger col-md-4" style="margin:10px 0px">
                 <h2>Вы проиграли!</h2>
             </div>
         }
         else
         {
-            <div class="alert alert-warning" style="margin: 10px 0px">
+            <div class="alert alert-warning col-md-4" style="margin: 10px 0px">
                 <h2>Ничья!</h2>
             </div>
         }
     }
+</div>
 
 @using (Html.BeginForm("MakeMove", "Home", FormMethod.Post))
 {
     <input type="hidden" name="id" value="@Model.Id" />
-    <table style="margin:20px 0px" border="0"> 
+    <table border="0"> 
         @for (int i = 0; i < 9; i++)
         {
             <tr>
